@@ -9,3 +9,6 @@ sentence_transformers
 nltk
 langchain-openai==0.3.33
 langchain
+vercel-python-wsgi
+gunicorn
+python-dotenv
