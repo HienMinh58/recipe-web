@@ -1,67 +1,77 @@
-# COMPSCI 235 - Starter Repository for the CS235 Recipe Portal
-This is a starter repository for the recipes webapp project of CompSci 235 in Semester 2, 2025.
+Recipe Web App with AI Chat Bot
+Overview
 
-## Description
+This project is a Recipe Web Application built with Flask.
+It allows users to:
 
-This repository contains a partial implementation of the domain model. It contains unit tests which can be run through pytest. It also contains a simple Flask application that renders content of a Recipe object instance from our domain model on a blank HTML page. You'll be expanding the domain model implementation, and you have the freedom to add, modify or remove test cases as needed.
+Browse and search for recipes
 
-**Health Star Ratings:** Rates recipes by weighting healthy (protein, fiber) vs unhealthy (saturated fat, sugar, sodium, fat, cholesterol, carbs) nutrients. Rates on a scale of 0–5 stars, 5 being the healthiest.
+View detailed recipe information
 
-## Installation
+Interact with an integrated AI Chat Bot powered by multi-agent architecture and Retrieval-Augmented Generation (RAG) for recipe-related queries
 
-**Installation via requirements.txt**
+Recipe data is embedded into Milvus vector database for semantic search, first hosted locally with Docker Compose and later migrated to Zilliz Cloud.
+The application is deployed on Vercel for easy access.
 
-**Windows**
-```shell
-$ cd <project directory>
-$ py -3 -m venv venv
-$ venv\Scripts\activate
-$ pip install -r requirements.txt
-```
+Features
 
-**MacOS**
-```shell
-$ cd <project directory>
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-```
+🔍 Search Recipes by ingredients or keywords
 
-When using PyCharm, set the virtual environment using 'File or PyCharm'->'Settings' and select your project from the left menu. Select 'Project Interpreter', click on the gearwheel button and select 'Add Interpreter'. Click the 'Existing environment' radio button to select the virtual environment. 
+📖 Browse Recipes from the collection
 
-## Execution
+🥘 Recipe Details with full instructions and ingredients
 
-**Running the application**
+🤖 AI Chat Bot for intelligent Q&A support
 
-From the *project directory*, and within the activated virtual environment (see *venv\Scripts\activate* above):
+📦 Milvus/Zilliz Cloud Integration with embeddings for semantic search
 
-````shell
-$ flask run
-```` 
+🚀 Vercel Deployment for fast and reliable hosting
 
-## Testing
+Tech Stack
 
-After you have configured pytest as the testing tool for PyCharm (File - Settings - Tools - Python Integrated Tools - Testing), you can then run tests from within PyCharm by right-clicking the tests folder and selecting "Run pytest in tests".
+Backend: Flask (Python)
 
-Alternatively, from a terminal in the root folder of the project, you can also call 'python -m pytest tests' to run all the tests. PyCharm also provides a built-in terminal, which uses the configured virtual environment. 
+Database: Milvus (local via Docker Compose) → Zilliz Cloud
 
-## Configuration
+AI/ML: Sentence Transformers, RAG, Multi-Agent Architecture
 
-The *project directory/.env* file contains variable settings. They are set with appropriate values.
+Deployment: Vercel
 
-* `FLASK_APP`: Entry point of the application (should always be `wsgi.py`).
-* `FLASK_ENV`: The environment in which to run the application (either `development` or `production`).
-* `SECRET_KEY`: Secret key used to encrypt session data.
-* `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
-* `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
- 
-## Data sources
+Setup & Installation
+1. Clone the repository
+git clone https://github.com/HienMinh58/web.git
+cd web
 
-The data files are modified excerpts downloaded from:
+2. Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate   # On Windows
+source venv/bin/activate # On Linux/Mac
 
-https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews/
+3. Install dependencies
+pip install -r requirements.txt
+
+4. Run the Flask app locally
+flask run
 
 
+The app will be available at: http://localhost:5000
 
+Deployment
 
+Local development uses Docker Compose to run Milvus.
 
+Embeddings are migrated to Zilliz Cloud for production.
+
+The Flask app is deployed on Vercel.
+
+Future Improvements
+
+User authentication (login & register)
+
+Recipe rating and comments
+
+Personalized recommendations
+
+License
+
+This project is licensed under the MIT License.
