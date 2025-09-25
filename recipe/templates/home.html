@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Home: Recipe Web App{% endblock %}
+
+{% block content %}
+    <div class="homepage-main-content">
+        <div class="homepage-overlay">
+            <div class="homepage-words">
+                <h1>Recipe Web App</h1>
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Recipe Web App Logo">
+                <p>
+                    This is a Web app designed to help you find all the recipes you could want.
+                    Browse through the collection of recipes, and enable yourself to create an abundance of delicious foods. 
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="featured-recipes">
+        <h2>Featured Recipes</h2>
+        <div class="featured-recipes-list">    
+            {% for recipe in recipes[0:2] %}
+                <div class="featured-recipe-card">
+                    <a href="{{ url_for('recipe_details.display_recipe', recipe_id=recipe.id) }}">
+                        <div class="image-container">
+                            <img src="{{ recipe.images[0] }}" alt="Recipe Image">
+                            <div class="image-overlay">
+                                <h3>{{ recipe.name }}</h3>
+                                <p>by {{ recipe.author.name }}</p>
+                            </div>
+                        </div>
+                    </a>    
+                </div>
+            {% endfor %}
+        </div>    
+    </div>
+
+
+{% endblock %}

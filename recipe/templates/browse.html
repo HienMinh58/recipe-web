@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse: Recipe Web App{% endblock %}
+
+{% block content %}
+    
+    <div class="container mt-4">  
+        <h2>Browse All Recipes</h2>
+        <form class="d-flex mb-4" role="search" action="{{ url_for('browse.search') }}" method="GET">
+            <div class="input-group">
+                <select class="form-select" name="criteria" aria-label="Search criteria" style="max-width: 150px;">
+                    <option value="name">Recipe Name</option>
+                    <option value="category">Category</option>
+                    <option value="author">Author</option>
+                </select>
+                <input class="form-control" type="search" name="query" placeholder="Search recipes..." aria-label="Search">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+        <div class="row">  
+            {% for recipe in recipes %}
+                <div class="col-md-4 mb-3">  
+                    <div class="card">  
+                        <img src="{{ recipe.images[0] }}" class="card-img-top" alt="Recipe Image" style="height: 200px; object-fit: cover;">
+                        <div class="card-body text-center">  
+                            <h5 class="card-title">
+                                <a href="{{ url_for('recipe_details.display_recipe', recipe_id=recipe.id) }}">
+                                    {{ recipe.name }}
+                                </a>
+                            </h5>
+                            {% if recipe.nutrition.health_rating == None %}
+                                <p>Health star rating unavailable.</p>
+                            {% else %}
+                                <p>
+                                    <span>Health Star Rating: </span>
+                                    {% for i in range(recipe.nutrition.health_rating) %}
+                                        <span style="color: gold;">&#9733;</span>
+                                    {% endfor %}
+                                    {% for i in range(5 - recipe.nutrition.health_rating) %}
+                                        <span style="color: grey;">&#9734;</span>
+                                    {% endfor %}
+                                    ({{ recipe.nutrition.health_rating }} / 5)
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ pagination.links }}  
+    </div>
+    
+{% endblock %}

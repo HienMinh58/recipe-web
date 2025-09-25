@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Recipe Web App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #chat-messages .message-bubble {
+            max-width: 80%; /* Giới hạn chiều rộng bubble như Messenger */
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 4px 8px;
+            border-radius: 18px; /* Góc bo tròn giống Messenger */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal; /* Cho phép tự động xuống dòng */
+            line-height: 1.4; /* Khoảng cách dòng */
+            font-size: 14px;
+        }
+        #chat-messages .user-message {
+            background-color: #0084ff; /* Màu xanh cho người dùng */
+            color: white;
+            margin-left: auto; /* Căn phải */
+        }
+        #chat-messages .bot-message {
+            background-color: #e4e6eb; /* Màu xám nhạt cho bot */
+            color: black;
+            margin-right: auto; /* Căn trái */
+        }
+        #chat-messages .timestamp {
+            font-size: 12px;
+            color: #65676b;
+            margin: 2px 8px;
+        }
+        #chat-input {
+            border-radius: 20px; /* Input bo tròn giống Messenger */
+        }
+        #chat-box {
+            border-radius: 15px; /* Bo góc container chat */
+            overflow: hidden; /* Đảm bảo nội dung không tràn */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">  
+            <div class="container-fluid">  
+                <a class="navbar-brand" href="/">Recipe Web App </a>  
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>  
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">  
+                    <ul class="navbar-nav me-auto">  
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>  
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/browse">Browse</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        {% if session.get('user_name') %}
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Logged in as {{ session['user_name'] }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('authentication.logout') }}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('authentication.login') }}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('authentication.register') }}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1100;">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'success' else ('info' if category == 'info' else 'secondary') }} shadow" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+<!-- Chatbot Widget -->
+<div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 2000;">
+  <button id="toggle-btn" class="btn btn-primary rounded-circle p-3 shadow">
+    💬
+  </button>
+  <div id="chat-box" class="card shadow" style="display:none; width:320px; height:450px;">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <span>AI Assistant</span>
+      <button id="close-btn" class="btn-close btn-close-white"></button>
+    </div>
+    <div id="chat-messages" class="card-body overflow-auto" style="height: 330px;"></div>
+    <div class="card-footer d-flex">
+      <textarea id="chat-input" class="form-control me-2" placeholder="Type a message..." rows="1" style="resize: none;"></textarea>
+      <button id="send-btn" class="btn btn-primary">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const toggleBtn = document.getElementById("toggle-btn");
+const closeBtn = document.getElementById("close-btn");
+const chatBox = document.getElementById("chat-box");
+const sendBtn = document.getElementById("send-btn");
+const chatInput = document.getElementById("chat-input");
+const chatMessages = document.getElementById("chat-messages");
+
+// Format timestamp
+function getTimestamp() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+// Handle Shift+Enter for line break
+chatInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    sendBtn.click(); // Trigger send button on Enter
+  }
+});
+
+toggleBtn.addEventListener("click", () => {
+  chatBox.style.display = "block";
+});
+
+closeBtn.addEventListener("click", () => {
+  chatBox.style.display = "none";
+});
+
+sendBtn.addEventListener("click", async () => {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+
+  // Escape HTML to prevent XSS
+  const safeMsg = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+  const timestamp = getTimestamp();
+  chatMessages.innerHTML += `
+    <div class="d-flex justify-content-end mb-2">
+      <div class="message-bubble user-message">${safeMsg}</div>
+    </div>
+    <div class="text-end timestamp">${timestamp}</div>
+  `;
+  chatInput.value = "";
+
+  const res = await fetch(`/chatbot?msg=${encodeURIComponent(msg)}`);
+  const data = await res.json();
+  const safeReply = data.reply.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+  chatMessages.innerHTML += `
+    <div class="d-flex justify-content-start mb-2">
+      <div class="message-bubble bot-message">${safeReply}</div>
+    </div>
+    <div class="text-start timestamp">${timestamp}</div>
+  `;
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+</script>
+
+</body>
+</html>
