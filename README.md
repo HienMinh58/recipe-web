@@ -1,75 +1,56 @@
 Recipe Web App with AI Chat Bot
 Overview
+Dive into this exciting Recipe Web Application crafted with Flask! It empowers users to:
 
-This project is a Recipe Web Application built with Flask.
-It allows users to:
+Effortlessly browse and search for mouthwatering recipes
+Dive deep into detailed recipe info, from prep to perfection
+Engage with a smart AI Chat Bot, fueled by cutting-edge multi-agent architecture and Retrieval-Augmented Generation (RAG), ready to tackle all your recipe questions!
 
-Browse and search for recipes
-
-View detailed recipe information
-
-Interact with an integrated AI Chat Bot powered by multi-agent architecture and Retrieval-Augmented Generation (RAG) for recipe-related queries
-
-Recipe data is embedded into Milvus vector database for semantic search, first hosted locally with Docker Compose and later migrated to Zilliz Cloud.
-The application is deployed on Vercel for easy access.
-
+Recipe data is cleverly embedded into the Milvus vector database for lightning-fast semantic search—starting locally with Docker Compose and seamlessly upgraded to Zilliz Cloud. Plus, it's all deployed on Vercel for super-smooth, hassle-free access.
 Features
-
-🔍 Search Recipes by ingredients or keywords
-
-📖 Browse Recipes from the collection
-
-🥘 Recipe Details with full instructions and ingredients
-
-🤖 AI Chat Bot for intelligent Q&A support
-
-📦 Milvus/Zilliz Cloud Integration with embeddings for semantic search
-
-🚀 Vercel Deployment for fast and reliable hosting
-
+🔍 Search Recipes by ingredients or keywords—find your next culinary adventure in seconds!
+📖 Browse Recipes from our vibrant collection of tasty ideas
+🥘 Recipe Details packed with step-by-step instructions and essential ingredients
+🤖 AI Chat Bot delivering intelligent, on-the-spot Q&A support
+📦 Milvus/Zilliz Cloud Integration with powerful embeddings for spot-on semantic search
+🚀 Vercel Deployment ensuring fast, reliable, and always-up hosting
 Tech Stack
 
-Backend: Flask (Python)
-
-Database: Milvus (local via Docker Compose) → Zilliz Cloud
-
-AI/ML: Sentence Transformers, RAG, Multi-Agent Architecture
-
-Deployment: Vercel
+Backend: Flask (Python) for robust, efficient performance
+Database: Milvus (kickstarted locally via Docker Compose) → Zilliz Cloud for scalable power
+AI/ML: Sentence Transformers, RAG, and Multi-Agent Architecture for next-level intelligence
+Deployment: Vercel for seamless, high-speed delivery
 
 Setup & Installation
-1. Clone the repository
+
+
+Clone the repository
 git clone https://github.com/HienMinh58/web.git
 cd web
 
-2. Create and activate virtual environment
-python -m venv venv
+
+Create and activate virtual environment
+py -m venv venv
 venv\Scripts\activate   # On Windows
 source venv/bin/activate # On Linux/Mac
 
-3. Install dependencies
+
+Install dependencies
 pip install -r requirements.txt
 
-4. Run the Flask app locally
+
+Run the Flask app locally
 flask run
+Fire it up and head to: http://localhost:5000 for instant action!
 
-
-The app will be available at: http://localhost:5000
 
 Deployment
-
-Local development uses Docker Compose to run Milvus.
-
-Embeddings are migrated to Zilliz Cloud for production.
-
+For local dev, spin up Milvus effortlessly with Docker Compose. When it's go-time, embeddings shift to Zilliz Cloud for production-grade awesomeness.
 Future Improvements
 
-User authentication (login & register)
-
-Recipe rating and comments
-
-Personalized recommendations
+User authentication (login & register) to make it personal
+Recipe rating and comments for community vibes
+Personalized recommendations tailored just for you
 
 License
-
-This project is licensed under the MIT License.
+This project is licensed under the MIT License—feel free to innovate and share!
