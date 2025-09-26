@@ -1,14 +1,18 @@
 {
-  "builds": [
-    {
-      "src": "wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "wsgi.py"
-    }
-  ]
+    "builds": [
+        {
+            "src": "wsgi.py",
+            "use": "@vercel/python",
+            "config": {
+        "pythonVersion": "3.11",
+        "buildCommand": "pip install -r requirements.txt"
+      }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "wsgi.py"
+        }
+    ]
 }

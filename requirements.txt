@@ -5,10 +5,9 @@ flask-paginate==2024.4.12
 flask-wtf==1.2.2
 password-validator==1.0
 pymilvus==2.6.1
-sentence_transformers 
 nltk
 langchain-openai==0.3.33
 langchain
-vercel-python-wsgi
+ujson==5.11.0
 gunicorn
 python-dotenv
