@@ -53,18 +53,6 @@ The app leverages recipe data embedded in the **Milvus vector database** for lig
 
    Visit `http://localhost:5000` to see the app in action!
 
-## Deployment
-
-- **Local Development**: Use Docker Compose to spin up Milvus locally for testing.  
-- **Production**: Embeddings are migrated to Zilliz Cloud for scalable, high-performance search.  
-- Deployed on Vercel for effortless, reliable access.
-
-## Future Improvements
-
-- **User Authentication**: Add login and registration for a personalized experience  
-- **Recipe Ratings & Comments**: Let users share feedback and connect  
-- **Personalized Recommendations**: Tailor recipe suggestions to user tastes  
-
 ## License
 
 This project is licensed under the MIT License – feel free to use, modify, and share!
