@@ -62,8 +62,6 @@ Local development uses Docker Compose to run Milvus.
 
 Embeddings are migrated to Zilliz Cloud for production.
 
-The Flask app is deployed on Vercel.
-
 Future Improvements
 
 User authentication (login & register)
